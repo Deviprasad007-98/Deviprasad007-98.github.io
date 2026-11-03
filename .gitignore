@@ -1,0 +1,6 @@
+# old backup and local/test files - not part of the website
+_previous_version/
+_test.html
+*.bak
+.DS_Store
+Thumbs.db
