@@ -19,7 +19,7 @@
     themeSwitch.checked = t === "dark";
     themeListeners.forEach((fn) => fn(t));
   }
-  applyTheme(root.dataset.theme || storedTheme() || (matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark"));
+  applyTheme(root.dataset.theme || storedTheme() || "dark");
   themeSwitch.addEventListener("change", () => {
     const t = themeSwitch.checked ? "dark" : "light";
     try { localStorage.setItem("ds-theme", t); } catch {}
@@ -254,11 +254,15 @@
       <span class="row-main"><span class="row-title">${esc(t.title)}</span><span class="row-sub" style="display:block">${esc(t.where)} · ${esc(t.kind)}</span></span>
     </div></li>`).join("");
 
-  $("#profileLinks").innerHTML = window.PROFILE_LINKS.filter((l) => l.url).map((l) => `
-    <li><a class="row" href="${esc(l.url)}" target="_blank" rel="noopener">
-      <span class="app-icon sm ${l.color}">${l.icon}</span>
-      <span class="row-main"><span class="row-title">${esc(l.name)}</span></span><span class="chev">↗</span>
-    </a></li>`).join("");
+  // profile links → vertical contact sidebar in the hero
+  const railItem = (l) => `
+    <a class="cr-item" href="${esc(l.url)}" target="_blank" rel="noopener" aria-label="${esc(l.name)}">
+      <span class="app-icon sm ${l.color}">${l.icon}</span><span class="cr-tip">${esc(l.name)} ↗</span>
+    </a>`;
+  const links = window.PROFILE_LINKS.filter((l) => l.url), isScholar = (l) => /scholar/i.test(l.name);
+  const railTop = $("#railTop"), railLinks = $("#railLinks");
+  if (railTop) railTop.innerHTML = links.filter(isScholar).map(railItem).join("");      // Google Scholar first
+  if (railLinks) railLinks.innerHTML = links.filter((l) => !isScholar(l)).map(railItem).join("");
 
   $("#year").textContent = new Date().getFullYear();
 
@@ -320,7 +324,7 @@
     const stage = $(".hero-stage");
 
     const cep = $("#cepRange"), dur = $("#durRange"), shgSw = $("#shgSwitch"), envSw = $("#envSwitch");
-    cep.addEventListener("input", () => ($("#cepOut").textContent = (+cep.value).toFixed(2) + "π"));
+    if (cep) cep.addEventListener("input", () => ($("#cepOut").textContent = (+cep.value).toFixed(2) + "π"));
     dur.addEventListener("input", () => ($("#durOut").textContent = (+dur.value).toFixed(1) + " fs"));
 
     // ---- soft-glow shader (points get a gaussian falloff; meshes use per-vertex alpha) ----
@@ -453,6 +457,7 @@
       camera.setViewOffset(w, h, 0, (0.5 - f) * h, w, h);
       const stageFrac = Math.max(0.25, Math.min(1, (sr.height || h) / h));
       const mobile = w < 760;
+      world.scale.setScalar(mobile ? 0.5 : 0.68); // smaller scene on phones (desktop 0.68)
       camera.position.z = (mobile ? 30 : w < 1080 ? 22 : 18) / Math.sqrt(stageFrac * 1.6);
       camera.updateProjectionMatrix();
     }
@@ -469,7 +474,7 @@
     let visible = true;
     new IntersectionObserver(([e]) => (visible = e.isIntersecting)).observe(canvas);
 
-    const speed = reduceMotion ? 0.6 : 4.2;
+    const speed = reduceMotion ? 1.2 : 9; // pulse travel speed (scene units per second)
     let xc = X0 - 6, last = performance.now(), tAcc = 0;
 
     function frame(now) {
@@ -478,7 +483,7 @@
       if (!visible || document.hidden) return;
       tAcc += dt;
 
-      const phi = +cep.value * Math.PI, tau = +dur.value;
+      const phi = cep ? +cep.value * Math.PI : 0, tau = +dur.value; // CEP fixed at 0 when its slider is absent
       const w = (tau / T0) * LAMBDA, a = (2 * LN2) / (w * w), span = Math.max(6, w * 1.6);
       xc += speed * dt;
       if (xc > X1 + span) xc = X0 - span;

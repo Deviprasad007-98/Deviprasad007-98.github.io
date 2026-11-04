@@ -5,8 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Dr. Deviprasad Sahoo — Experimental Physicist</title>
   <meta name="description" content="Research portfolio of Dr. Deviprasad Sahoo, experimental physicist at HUN-REN Wigner Research Centre for Physics: attosecond photonics, ultrafast optics, light–matter interaction, 2D materials and energy-harvesting devices." />
-  <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
-  <meta name="theme-color" content="#f2f2f7" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#000000" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
@@ -16,7 +15,7 @@
     (function () {
       var t = null;
       try { t = localStorage.getItem("ds-theme"); } catch (e) {}
-      if (!t) t = window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+      if (!t) t = "dark"; // dark mode by default; a visitor's own choice (stored) still wins
       document.documentElement.setAttribute("data-theme", t);
     })();
   </script>
@@ -50,22 +49,24 @@
     <section class="hero" id="home" data-section="Home">
       <canvas id="pulseCanvas" aria-label="3D animation of a femtosecond laser pulse passing through a nonlinear crystal and generating a second harmonic"></canvas>
       <!-- femtosecond-pulse controls (compact) -->
-      <aside class="pulse-panel glass" aria-label="Femtosecond pulse controls">
-        <div class="pp-head"><span class="live-dot"></span><strong>Femtosecond pulse</strong><span class="pp-sub">800 nm · drag to rotate</span></div>
-        <div class="pp-row">
-          <label for="cepRange">φ<sub>CE</sub></label>
-          <input type="range" id="cepRange" min="0" max="2" step="0.01" value="0" />
-          <output id="cepOut">0.00π</output>
-        </div>
-        <div class="pp-row">
-          <label for="durRange">τ</label>
+      <aside class="pulse-panel pulse-bar glass" aria-label="Femtosecond pulse controls" title="800 nm · drag the scene to rotate">
+        <span class="pb-title"><span class="live-dot"></span>Femtosecond pulse</span>
+        <label class="pb-dur" for="durRange">τ
           <input type="range" id="durRange" min="4" max="30" step="0.5" value="5.5" />
           <output id="durOut">5.5 fs</output>
-        </div>
-        <div class="pp-chips">
-          <label class="chip-toggle"><input type="checkbox" id="shgSwitch" checked /><span>SHG · 400 nm</span></label>
-          <label class="chip-toggle"><input type="checkbox" id="envSwitch" checked /><span>Envelope</span></label>
-        </div>
+        </label>
+        <label class="chip-toggle"><input type="checkbox" id="shgSwitch" checked /><span>SHG</span></label>
+        <label class="chip-toggle"><input type="checkbox" id="envSwitch" checked /><span>Envelope</span></label>
+      </aside>
+
+      <!-- compact vertical contact sidebar -->
+      <aside class="contact-rail glass" id="contact" aria-label="Contact">
+        <span class="cr-title">Contact</span>
+        <div class="cr-links" id="railTop"></div>
+        <a class="cr-item" href="mailto:deviprasad.sahoo9696@gmail.com" aria-label="Email"><span class="app-icon sm i-blue">✉</span><span class="cr-tip">deviprasad.sahoo9696@gmail.com</span></a>
+        <a class="cr-item" href="CV_Deviprasad_Sahoo.pdf" download aria-label="Download CV"><span class="app-icon sm i-orange">⬇</span><span class="cr-tip">Download CV (PDF)</span></a>
+        <span class="cr-sep" aria-hidden="true"></span>
+        <div class="cr-links" id="railLinks"></div>
       </aside>
 
       <!-- empty stage: the 3D femtosecond-laser scene shows through here -->
@@ -83,11 +84,6 @@
             Experimental physicist (Ph.D. in Physics, 3+ years of postdoctoral experience) specialising in ultrafast optics, light–matter interaction, materials science and energy-harvesting devices. I build custom ultrafast optical systems, and synthesise semiconductor thin films and nanomaterials, for next-generation photonics and energy applications.
           </p>
           <div class="pill-row interests" id="interests" aria-label="Research interests"></div>
-          <div class="hero-actions">
-            <a href="#career" class="btn btn-primary">Explore my work</a>
-            <a href="#contact" class="btn btn-tinted">Get in touch</a>
-            <a href="CV_Deviprasad_Sahoo.pdf" class="btn btn-tinted" download>⬇ Download CV</a>
-          </div>
         </div>
       </div>
 
@@ -159,10 +155,7 @@
           <h1 class="lab-title">Attosecond photonics</h1>
           <h2 class="lab-title lab-title-sub">Field and Time-resolved Attosecond spectroscopy by TIPTOE field sampling optical system</h2>
           <p>
-              I use a custom <strong>TIPTOE</strong> setup (<em>Tunnelling Ionization with Perturbation for the Time-domain
-              Observation of an Electric field</em>) to sample the electric field of light directly. It is driven by a sub-5.5 fs,
-              CEP-stable Ti:sapphire oscillator (800 nm, 80 MHz). I also work on attosecond spectroscopy using tunnelling ionization
-              in III–V semiconductors, and on Z-scan, chirp correction and CEP-dependent measurements for petahertz photonics.
+              I sample the electric field of light directly with a custom <strong>TIPTOE</strong> setup driven by a sub-5.5 fs, CEP-stable Ti:sapphire oscillator, for attosecond spectroscopy of III–V semiconductors and petahertz photonics.
             </p>
           <p class="rm-how"><strong>How it works.</strong> A strong few-cycle <span class="c-red">drive pulse</span> ionizes a medium only within a sub-cycle window at its peak. A weak <span class="c-blue">signal field</span> placed at delay τ slightly changes the ionization yield. Scanning τ makes the yield modulation δN/N trace out the signal's electric field, E<sub>s</sub>(τ).</p>
           <div class="pill-row"><span>TIPTOE</span><span>CEP-stable</span><span>sub-5.5 fs</span><span>SHG</span><span>Petahertz</span></div>
@@ -203,11 +196,7 @@
           <h1 class="lab-title">Ultrafast optics &amp; 2D materials</h1>
           <h2 class="lab-title lab-title-sub">Femtosecond transient-absorption spectroscopy of 2D MXenes with a wavelength-tunable pump</h2>
           <p>
-            At the Femtosecond Photonics lab, IIT Madras (Oct 2025 – Mar 2026), I developed a custom <strong>pump–probe</strong>
-            setup for transient-absorption spectroscopy to characterise 2D MXenes. The source is a <strong>30 fs CPA Ti:sapphire</strong>
-            laser at 800 nm. The pump wavelength is tuned by harmonic generation: an <strong>SHG</strong> crystal converts 800 nm to
-            400 nm, and a <strong>THG</strong> stage gives ~266 nm. A prism then separates the 800, 400 and 266 nm beams, and tilting a mirror selects which one passes through an iris to pump the sample with 1.55, 3.1 or 4.65 eV photons.
-            I also performed high-harmonic generation experiments in an ultra-high-vacuum beamline driven by the same laser.
+            At IIT Madras I built a custom <strong>pump–probe</strong> transient-absorption setup for 2D MXenes, driven by a <strong>30 fs CPA Ti:sapphire</strong> laser whose 800, 400 (<strong>SHG</strong>) and 266 nm (<strong>THG</strong>) outputs are separated by a prism and selected with a tilting mirror, and used the same laser for high-harmonic generation in an ultra-high-vacuum beamline.
           </p>
           <p class="rm-how"><strong>How it works.</strong> A <span class="c-red">pump</span> pulse excites carriers in the sample. A
             delayed broadband <span class="c-blue">probe</span> measures the change in absorbance, ΔA(λ, τ). Scanning the delay τ with a
@@ -250,20 +239,12 @@
           <h1 class="lab-title">Energy-harvesting devices</h1>
           <h2 class="lab-title lab-title-sub">Triboelectric/Piezoelectric nanogenerators for self-powered sensing</h2>
           <p>
-            At CIPET (Dec 2023 – Oct 2025) I electrospun <strong>PVDF nanofibres</strong> loaded with three 2D nanofillers:
-            <strong>MXene</strong> (Ti<sub>3</sub>C<sub>2</sub>T<sub>x</sub>, by HF etching), <strong>hBN nanosheets</strong>
-            (by liquid-phase exfoliation) and <strong>rGO</strong>. I modelled the device in COMSOL and built a 3D-printed
-            contact-separation TENG driven by a vibrational shaker. The best pair, <strong>PVDF-MXene/ITO-PET vs PDMS</strong>,
-            reached <strong>80 V</strong>, <strong>250 nA cm<sup>−2</sup></strong>, <strong>5 nC cm<sup>−2</sup></strong> and
-            <strong>22 mW m<sup>−2</sup></strong> at 6 MΩ, and stayed stable for ~16,000 cycles. The same materials made a
-            self-powered pressure sensor (0.5 → 8 nA cm<sup>−2</sup> from 0.1 to 0.5 N) and a wrist-pulse monitor that
-            responds to deep breathing (2 nA cm<sup>−2</sup>) and running (14 nA cm<sup>−2</sup>).
+            At CIPET I fabricated and COMSOL-simulated <strong>TENG/PENG energy-harvesting devices</strong> from electrospun PVDF nanofibres with 2D nanofillers (MXene, hBN, rGO), reaching <strong>80 V</strong> and <strong>22 mW m<sup>−2</sup></strong> with PVDF-MXene vs PDMS, and turned them into <strong>self-powered sensors for health monitoring</strong> such as real-time wrist-pulse tracking.
           </p>
           <p class="rm-how"><strong>How it works.</strong> When the two layers touch, contact electrification leaves the
             PVDF-nanofibre surface <span class="c-blue">negative</span> and the counter layer <span class="c-red">positive</span>.
             As they separate, electrostatic induction pushes electrons through the external load; pressing them back together
-            reverses the current. MXene gives the composite the highest dielectric constant (38.1 at 100 Hz, vs 12.7 with hBN
-            and 8.1 with rGO) and the strongest β-phase (d<sub>33</sub> ≈ 3.2 pC N<sup>−1</sup>), so more charge is induced.</p>
+            reverses the current.</p>
           <div class="pill-row"><span>Electrospinning</span><span>Ti₃C₂Tₓ MXene</span><span>hBN</span><span>rGO</span><span>TENG / PENG</span><span>COMSOL</span><span>3D printing</span></div>
           <a class="rm-link" href="https://doi.org/10.1002/admt.202501141" target="_blank" rel="noopener">Read the paper: Adv. Mater. Technol. 2025, e01141 ↗</a>
         </div>
@@ -296,22 +277,9 @@
           <h2 class="lab-title lab-title-sub">Energy-treatment engineering of As–Se–Ge/Sb/Te chalcogenide thin films</h2>
           <p class="rm-thesis"><span>Thesis</span><em>Structural, morphological and optical study of doped As–Se films under different energy treatments</em></p>
           <p>
-            I prepared As–Se glasses doped with <strong>Ge</strong>, <strong>Sb</strong> or <strong>Te</strong> by
-            <strong>melt quenching</strong> and deposited them as thin films by <strong>thermal evaporation</strong>.
-            I then modified the films with three energy routes: <strong>thermal annealing</strong>,
-            <strong>laser irradiation</strong> and <strong>ion irradiation</strong>. I followed the structural, morphological
-            and optical changes with XRD, Raman, FESEM, AFM, EDAX, XPS and UV-Vis-NIR spectroscopy, and extracted the linear and
-            nonlinear optical parameters. Because the <strong>third-order susceptibility χ<sup>(3)</sup></strong> and
-            <strong>nonlinear refractive index n<sub>2</sub></strong> are closely linked to the bandgap and linear refractive
-            index, every energy treatment (annealing below/above T<sub>g</sub>, laser irradiation tracked in situ, and
-            fluence-dependent ion irradiation), together with Ag(Te)/As–Se and Te/As<sub>2</sub>Se<sub>3</sub> bilayers, acts
-            as a post-deposition control knob for the nonlinear optics of As–Se–Ge/Sb/Te films.
+            I prepared Ge-, Sb- and Te-doped As–Se films by <strong>melt quenching</strong> and <strong>thermal evaporation</strong>, modified them by <strong>thermal annealing</strong>, <strong>laser irradiation</strong> and <strong>ion irradiation</strong>, and characterised them with XRD, Raman, FESEM, AFM, EDAX, XPS and UV-Vis-NIR spectroscopy.
+            The <strong>nonlinear optical parameters</strong> (χ<sup>(3)</sup> and n<sub>2</sub>) shifted along with the bandgap and refractive index, so each treatment gave me a practical way to tune the films' nonlinear response after deposition, and I later extended this to Ag(Te)/As–Se and Te/As<sub>2</sub>Se<sub>3</sub> bilayers.
           </p>
-          <p class="rm-how"><strong>How it works.</strong> As-deposited chalcogenide films are amorphous: a disordered
-            network of As, Se and dopant atoms. Each energy treatment rearranges that network in a different way. Heat lets it
-            relax and, at high enough temperature, crystallise. Light switches bonds (photo-induced changes). Ions break bonds and
-            create defects. These changes shift the absorption edge, optical bandgap and refractive index, which is how
-            the optical response can be tuned after deposition.</p>
           <div class="pill-row"><span>Melt quenching</span><span>Thermal evaporation</span><span>Annealing</span><span>Laser irradiation</span><span>Ion irradiation</span><span>Nonlinear optics</span></div>
         </div>
         <div class="rm-sim" id="phd">
@@ -423,22 +391,8 @@
       </div>
     </section>
 
-    <!-- ============ Contact ============ -->
-    <section class="section" id="contact" data-section="Contact">
-      <div class="contact-card glass reveal tilt">
-        <div class="cc-avatar">DS</div>
-        <h2>Dr. Deviprasad Sahoo</h2>
-        <p class="muted">Postdoctoral Researcher · Attosecond Photonics<br />HUN-REN Wigner Research Centre for Physics, Budapest, Hungary</p>
-        <div class="cc-actions">
-          <a class="cc-btn" href="mailto:deviprasad.sahoo9696@gmail.com"><span class="app-icon i-blue sm">✉</span><span>Email</span></a>
-          <a class="cc-btn" href="#papers"><span class="app-icon i-red sm">❡</span><span>Papers</span></a>
-          <a class="cc-btn" href="CV_Deviprasad_Sahoo.pdf" download><span class="app-icon i-orange sm">⬇</span><span>CV (PDF)</span></a>
-        </div>
-        <ul class="ios-list inset" id="profileLinks"></ul>
-        <p class="cc-mail">deviprasad.sahoo9696@gmail.com</p>
-      </div>
-      <footer class="foot">© <span id="year"></span> Deviprasad Sahoo · Built with Three.js</footer>
-    </section>
+    <!-- ============ Footer (contact lives in the sidebar at the top) ============ -->
+    <footer class="foot">© <span id="year"></span> Deviprasad Sahoo · Built with Three.js</footer>
   </main>
 
   <!-- ============ iOS bottom sheet ============ -->
