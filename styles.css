@@ -637,3 +637,21 @@ body.sheet-open { overflow: hidden; }
   .contact-rail { right: auto; }
   .pulse-panel.pulse-bar { top: auto; }
 }
+
+/* Mobile: intro card overlaid on the 3D pulse scene; contact strip at the end of the hero */
+@media (max-width: 760px) {
+  .pulse-panel.pulse-bar { order: 0; margin: 0 0 8px; }
+  .hero { min-height: auto; }
+  #pulseCanvas { opacity: 0.5; } /* faded so the name and details stay readable */
+  .hero-stage { order: 1; flex: 0 0 auto; min-height: 0; height: 30vh; }
+  .hero-wide {
+    order: 2; margin-top: -30vh;
+    background: color-mix(in srgb, var(--glass) 30%, transparent);
+    backdrop-filter: saturate(140%) blur(3px); -webkit-backdrop-filter: saturate(140%) blur(3px);
+  }
+  .hero-wide h1, .hero-wide .hero-role, .hero-wide .hero-lead { text-shadow: 0 1px 10px rgba(0, 0, 0, 0.55); }
+  :root[data-theme="light"] .hero-wide h1, :root[data-theme="light"] .hero-wide .hero-role, :root[data-theme="light"] .hero-wide .hero-lead { text-shadow: 0 1px 10px rgba(255, 255, 255, 0.7); }
+  .hero .widgets { order: 3; }
+  .hero .scroll-hint { order: 4; }
+  .contact-rail { order: 5; margin: 14px auto 0; }
+}
